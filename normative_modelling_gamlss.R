@@ -2,12 +2,14 @@
 
 
 # Script for running normative modelling using GAMLSS
-# The script can be run from the command line or in RStudio
+# The script can be run from the command line or in RStudio.
+# The script uses parallel processing to speed things up (SHASH takes longer time, especially with larger datasets).
 
 # Author: Jelena Bozek, University of Zagreb, Faculty of Electrical Engineering and Computing
 
 # August 2022
 
+####################################
 
 # load libraries
 library(gamlss)
@@ -21,7 +23,7 @@ library(foreach)
 library(doParallel)
 
 
-#### HELPER FUNCTIONS ####
+######## HELPER FUNCTIONS ########
 # function for getting percentiles from gamlss object; based on the centiles() function (but centiles() only plots, doesn't output values)
 get_percentiles <- function(obj, xvar, cent=c(1,2,5,10,50,90,95,98,99)) {
   if (!is.gamlss(obj))  stop(paste("This is not a gamlss object", "\n", ""))
@@ -86,7 +88,7 @@ if (is.null(opt$file)){
 }
 
 
-## inputs ##
+###### assigning inputs to variables ######
 input_file <- opt$file
 num_of_subj <- opt$numsubjects
 formula <- opt$func
@@ -120,8 +122,8 @@ ncolumns <- ncol(my_data)
 y_vol <- my_data[,2:ncolumns] # volumes; columns 2:ncolumns have different simulation sets
 numcol <- ncol(y_vol)
 
-# initilise output data frame with only ages
-# output file has the following structure: 1st column ages, 2nd column simdata, followed by columns with percentiles (output of fitted.values), then again sim data etc
+# initilise output data frame with input ages
+# output file will have the following structure: 1st column ages, 2nd column input simdata, followed by columns with percentiles (output of fitted.values), then again input simdata, percentiles etc.
 out_data <- data.frame(age)
 
 start_time <- Sys.time()
@@ -142,7 +144,6 @@ my_centiles <- foreach (i=1:numcol, .combine= rbind) %dopar%    # start parallel
     else if (formula == 'splineMuSigmaNuTau') {
       my_fit <- gamlss(y_vol[,i]~cs(age,df=3), sigma.formula = ~cs(age,df=3), nu.formula = ~cs(age,df=3), tau.formula = ~cs(age,df=3), family=fam, data=my_data)
     }
-    
     return (list(get_percentiles (my_fit,age)))
   }
 
@@ -162,8 +163,5 @@ for (i in 1:numcol) {
 }
 end_time <- Sys.time()
 
-
 # save data as binary .rds file
 saveRDS(out_data, file = output_file)
-
-
