@@ -21,7 +21,6 @@ There are four main commands:
     - This creates simulated datasets
  - normative_modelling_gamlss.R
     - This R script fits dataset using GAMLSS. The implementation we used for the gamlss function came from package GAMLSS (version 5.1-6). The script uses several GAMLSS models, implementing linear fitting or cubic spline smoothing across age, together with a Box Cox T (BCT) or a SinhArcsinh (SHASH) transformation, both of which create four parameter continuous distributions.
-
  - est_percentiles.py
     - This estimates normative models using sliding windows methods
  - measure_results.py
@@ -54,7 +53,12 @@ Detailed help and usage for each command can be found by running it with the arg
 
 For GAMLSS models:
 
+  `normative_modelling_gamlss.R ????`
+  
+  - Some notes go here ..........
+
 For sliding window models:
+
   `est_percentiles.py -i simdata_1000.csv -o fit_MovingAvW5_1000.csv --postsmooth 2.12 --percbinsize 5.0 -w 1 --bintype rect`
   
   - This takes a set of simulated datasets (as output by sim_data.py) and estimates percentile curves using normative model based on sliding windows
