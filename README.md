@@ -52,6 +52,9 @@ Detailed help and usage for each command can be found by running it with the arg
 
 ### Estimate Normative Model (percentile curves)
 
+For GAMLSS models:
+
+For sliding window models:
   `est_percentiles.py -i simdata_1000.csv -o fit_MovingAvW5_1000.csv --postsmooth 2.12 --percbinsize 5.0 -w 1 --bintype rect`
   
   - This takes a set of simulated datasets (as output by sim_data.py) and estimates percentile curves using normative model based on sliding windows
