@@ -6,7 +6,8 @@ The code is written in python and R can also be accessed programmatically, but t
 
 ## Authors
 
-Mark Jenkinson and Jelena Bozek
+Code:
+  - Mark Jenkinson and Jelena Bozek
 
 Main citation:
   - Scripts included in this repository are described in detail in the paper "Normative models for neuroimaging markers: impact of model selection, sample size and evaluation criteria" by Jelena Bozek, Ludovica Griffanti, Stephan Lau and Mark Jenkinson.
