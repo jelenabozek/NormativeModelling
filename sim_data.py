@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 #  This code is released to the public domain.
 
 #  Author: Mark Jenkinson, University of Oxford and University of Adelaide
@@ -12,7 +11,7 @@
 #  incidental or otherwise, caused by any use of this document.
 
 """
-This command-line tool (and module) is used to create simulated data to test
+Command-line tool (and module)  used to create simulated data to test
 normative modelling approaches.
 """
 
@@ -40,6 +39,7 @@ def makeage(mode, arg, maxnum=None):
             arg[0] is number of subjects; arg[1] is minimum age; arg[2] is maximum age.
         maxnum (int, optional): number of subjects to take in 'file' mode.
             Defaults to None, meaning that all values from the file are taken.
+            If larger than the number in the file then extra values are formed by replication with some jitter.
 
     Returns:
         x (np.array): set of ages.
@@ -127,7 +127,7 @@ def simulate_data(x_age, dist_params, plotres=False, args=None):
 
 def do_work(args):
     """
-    Main set of steps in the algorithm: create ages ; generate ground truth ; simulate data ; save results.
+    Main set of steps in the algorithm: create ages --> generate ground truth --> simulate data --> save results.
 
     Args:
         args (argparse structure): set of command-line arguments.
