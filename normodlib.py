@@ -49,8 +49,8 @@ def sort_by_second(x_1, x_2) -> tuple:
 
 def sorted_rank(x):
     """
-    For a 1D vector, get the rank, such that x[i] is the rank[i]'th ordered value
-    e.g. if x[3] is the minimum value then rank[3]=0, is x[7] is the next biggest,
+    For a 1D vector, get the ascending rank, such that x[i] is the rank[i]'th ordered value
+    e.g. if x[3] is the minimum value then rank[3]=0, and if x[7] is the next biggest,
          rank[7]=1, etc
 
     Args:
