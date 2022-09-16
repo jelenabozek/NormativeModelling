@@ -33,7 +33,7 @@ Detailed help and usage for each command can be found by running it with the arg
 
 ### Simulate Data
 
-  `sim_data.py -n 1000 --nsim 5000 --agedist simages.txt -s nonlin --simparams 65.0 0.1 20.0 -70.0 6000.0 65.0 0.1 1.0 5.0 200.0`
+  `sim_data.py --numsamples 1000 --nsim 5000 --agedist simages.txt --simmodeltype nonlin --simparams 65.0 0.1 20.0 -70.0 6000.0 65.0 0.1 1.0 5.0 200.0`
   
   - This creates a set of 5000 simulations, where each simulation contains 1000 datapoints (i.e. simulated subjects)
   - The ages are read from the file simages.txt (the first number on each line is taken as a separate age)
@@ -59,7 +59,7 @@ For GAMLSS models:
 
 For sliding window models:
 
-  `est_percentiles.py -i simdata_1000.csv -o fit_MovingAvW5_1000.csv --postsmooth 2.12 --percbinsize 5.0 -w 1 --bintype rect`
+  `est_percentiles.py --inputfile simdata_1000.csv --out fit_MovingAvW5_1000.csv --postsmooth 2.12 --percbinsize 5.0 --binwidth 1 --bintype rect`
   
   - This takes a set of simulated datasets (as output by sim_data.py) and estimates percentile curves using normative model based on sliding windows
   - The output is written to the file fit_MovingAvW5_1000.csv in this case and the format contains one row per datapoint with a header row like this:
@@ -71,20 +71,20 @@ For sliding window models:
   - settings for the sliding window algorithm are specified via the options:
     - `--bintype` specifies the type of window function - it can be `rect` of `guassian` for fixed width windows of different weighting profiles or `fixedP` for a rectangular window that varies in width to fit a given percentage of the samples
     - `--percbinsize` specifies the width of the window (the value is interpretted as the percentage for the `fixedP` bintype and as an age range for the fixed width bintypes)
-    - `-w` specifies the fundamental sampling of the age values (typically use a value of 1.0 unless some coarser sampling is desired)
+    - `--binwidth` specifies the sampling of the age values throughout the code (typically use a value of 1.0 unless some coarser sampling is desired)
     - `--postsmooth` specifies the amount of smoothing the estimated curves after the initial sliding window calculation (as a sigma value)
   - In the example here the window is a fixed size, of width 5 years, and is smoothed by &sigma; of 2.12 years (FWHM of 5 years). 
   
   ### Measure Performance/Errors
   
-  `measure_results.py -i fit_MovingAvW5_1000.csv -o normodres_MovingAvW5 -e MovingAvW5 -s nonlin --simparams 65.0 0.1 20.0 -70.0 6000.0 65.0 0.1 1.0 5.0 200.0`
+  `measure_results.py --inputfile fit_MovingAvW5_1000.csv --outname normodres_MovingAvW5 --estname MovingAvW5 --simmodeltype nonlin --simparams 65.0 0.1 20.0 -70.0 6000.0 65.0 0.1 1.0 5.0 200.0`
   
   - This takes as input the output of est_percentiles.py and measures different types of errors, saving these in an output file (normodres_MovingAvW5.csv) and creating plots of the results (saved as files)
   - The output of any normative modelling method can be used as long as its output is written using the format specified above, although both csv and rds file formats can be read
   - The plots are saved with fixed filenames, into the present working directory
-  - The type of ground truth and the associated simulation parameters are specified with the `-s` and `--simparams` options, as described above for sim_data.py (it should match the ground truth used to generate the initial simulated data)
-  - The estimation method name specified by `-e` is used in the output file, as a way of identifying the output when comparing methods
-  - The output basename, specified by `-o`, is used to form the name of the csv file that saves all the error values
+  - The type of ground truth and the associated simulation parameters are specified with the `--simmodeltype` and `--simparams` options, as described above for sim_data.py (it should match the ground truth used to generate the initial simulated data)
+  - The estimation method name specified by `--simmodeltype` is used in the output file, as a way of identifying the output when comparing methods
+  - The output basename, specified by `--outname`, is used to form the name of the csv file that saves all the error values
     - Columns in the csv file include:
      - *Simulation Model* is the name of the ground truth model (e.g. nonlin)
      - *Estimation Method* is the name given in the `-e` option
