@@ -20,7 +20,7 @@ There are four main commands:
  - sim_data.py
     - This creates simulated datasets
  - normative_modelling_gamlss.R
-    - This R script fits dataset using GAMLSS. The implementation we used for the gamlss function came from package GAMLSS (version 5.1-6). The script uses several GAMLSS models, implementing linear fitting or cubic spline smoothing across age, together with a Box Cox T (BCT) or a SinhArcsinh (SHASH) transformation, both of which create four parameter continuous distributions.
+    - This R script fits dataset using GAMLSS. The implementation we used for the gamlss function came from package GAMLSS (version 5.3-4). The script uses several GAMLSS models, implementing linear fitting or cubic spline smoothing across age, together with a Box Cox T (BCT) or a SinhArcsinh (SHASH) transformation, both of which create four parameter continuous distributions.
  - est_percentiles.py
     - This estimates normative models using sliding windows methods
  - measure_results.py
@@ -53,9 +53,18 @@ Detailed help and usage for each command can be found by running it with the arg
 
 For GAMLSS models:
 
-  `normative_modelling_gamlss.R ????`
+  `normative_modelling_gamlss.R --file=simdata_1000.rds --numsubjects=1000 --func=splineMuSigma --distribution=SHASH --out=fitdata_gamlss.rds`
   
-  - Some notes go here ..........
+  - This takes a set of simulated datasets (as output by sim_data.py) and estimates percentile curves using normative model based on GAMLSS
+  - The output is written to the file *fitdata_gamlss.rds* in this case and the format contains one row per datapoint with a header row like this:
+    - *age, simdata_1, centile1_sim1, centile2_sim1, centile5_sim1, centile10_sim1, centile50_sim1, centile90_sim1, centile95_sim1, centile98_sim1, centile99_sim1, simdata_2, centile1_sim2, centile2_sim2, centile5_sim2, centile10_sim2, centile50_sim2, centile90_sim2, centile95_sim2, centile98_sim2, centile99_sim2, simdata_3, ...*
+    - where *centileP_simN* represents the estimated value of percentile curve "P" at the Nth simulated dataset, while "simdata_N" represents the value (e.g. volume) of the this datapoint for the Nth simulated dataset
+    - for example, in this case there will be one header row followed by 1000 rows (one per datapoint) where in each row will start with *age, simdata_1* and go to *simdata_5000, centile1_sim5000, ... centile99_sim5000*
+    - this is a redundant representation, which is helpful for matching files if the filenames do not contain enough information
+  - settings for the GAMLSS are specified via the options:
+    - `--func` specifies the formula function to be used for fitting - it can be one of the following: 'linear', 'polynomial', 'spline', 'splineMuSigma', 'splineMuSigmaNuTau'. [default= splineMuSigma]
+    - `--distribution` specifies the family distribution to use for modelling - it can be 'BCT' or 'SHASH'. [default= SHASH]
+  
 
 For sliding window models:
 
@@ -97,7 +106,13 @@ For sliding window models:
 
 ## Installation instructions
 
-The code requires R version ???? and python version 3 with the following python packages:
+The code requires R version 3.6.1 with the following packages:
+ - gamlss
+ - MASS
+ - nlme
+ - parallel
+
+The code requires Python version 3 with the following packages:
  - pyreadr
  - scipy
  - numpy
