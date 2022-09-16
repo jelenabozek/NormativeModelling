@@ -63,7 +63,7 @@ For sliding window models:
   
   - This takes a set of simulated datasets (as output by sim_data.py) and estimates percentile curves using normative model based on sliding windows
   - The output is written to the file fit_MovingAvW5_1000.csv in this case and the format contains one row per datapoint with a header row like this:
-    -"age","simdata_1","centile1_sim1","centile2_sim1","centile5_sim1","centile10_sim1","centile50_sim1","centile90_sim1","centile95_sim1","centile98_sim1","centile99_sim1","simdata_2","centile1_sim2","centile2_sim2","centile5_sim2","centile10_sim2","centile50_sim2","centile90_sim2","centile95_sim2","centile98_sim2","centile99_sim2","simdata_3",...
+    - *age, simdata_1, centile1_sim1, centile2_sim1, centile5_sim1, centile10_sim1, centile50_sim1, centile90_sim1, centile95_sim1, centile98_sim1, centile99_sim1, simdata_2, centile1_sim2, centile2_sim2, centile5_sim2, centile10_sim2, centile50_sim2, centile90_sim2, centile95_sim2, centile98_sim2, centile99_sim2, simdata_3, ...*
     - where centileP_simN represents the estimated value of percentile curve "P" at the Nth simulated dataset, while "simdata_N" represents the value (e.g. volume) of the this datapoint for the Nth simulated dataset
     - for example, in this case there will be one header row followed by 1000 rows (one per datapoint) where in each row will start with "age", "simdata_1" and go to "simdata_5000", "centile1_sim5000", ... "centile99"sim5000"
     - this is a redundant representation, which is helpful for matching files if the filenames do not contain enough information
