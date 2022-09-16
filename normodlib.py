@@ -205,8 +205,8 @@ def model(theta, x, modeltype=None):
         # specialised simulation function, not used for estimation
         mu = sigmoid((x - theta[0])*theta[1])*((x-theta[0])*theta[3]) \
             + (x-theta[0])*theta[2] + theta[4]
-        sigma = sigmoid((x - theta[5])*theta[6])*((x-theta[0])*theta[8]) \
-            + (x-theta[0])*theta[7] + theta[9]
+        sigma = sigmoid((x - theta[5])*theta[6])*((x-theta[5])*theta[8]) \
+            + (x-theta[5])*theta[7] + theta[9]
         #print(('Pre-stack size is ',mu.shape))
         retval = [mu, sigma]
     else:

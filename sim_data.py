@@ -51,7 +51,8 @@ def makeage(mode, arg, maxnum=None):
     if mode == 'file':
         #   Read in age distribution from file
         xall = np.loadtxt(arg)
-        xall = xall[:, 2]
+        if len(xall.shape) > 1:
+            xall = xall[:, 0]
         if maxnum:
             if maxnum > xall.shape[0]:
                 xall = np.tile(xall, int(maxnum / xall.shape[0]) + 1)  # extend by replication

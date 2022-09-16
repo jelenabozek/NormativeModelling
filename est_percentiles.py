@@ -109,7 +109,7 @@ def weighted_percentile(ptl, y, weights):
 
     Args:
         ptl (float): required percentile in [0,1]
-        y (np.array): data values that *must* be sorted (1D array; Nx1)
+        y (np.array): data values that *MUST* be sorted (1D array; Nx1)
         weights (np.array): weighting/probability value for each value (1D array; Nx1)
             sum of weights should be > 1e-3
 
@@ -191,7 +191,7 @@ def sliding_window_estimate(percvals, x_s, y_s, xrank, ages, parzen, width, post
         wptl = np.zeros(ages.shape)
         # loop over age bins
         for idx, x_c in enumerate(ages):
-            # calculate weights corresponding to the age centre, x_c, using appropriate Parzen window
+            # calculate weights corresponding to the age centre, x_c, using appropriate Parzen window type
             if parzen == 'rect':
                 weights = nm.rect((x_s - x_c) / width)
             elif parzen == 'gaussian':
@@ -214,7 +214,8 @@ def sliding_window_estimate(percvals, x_s, y_s, xrank, ages, parzen, width, post
             else:
                 print(f'Unknown Parzen window type: {parzen}')
                 sys.exit(1)
-            wptl[idx] = weighted_percentile(pcval, y_s, weights)  # calculate requested percentile
+            # do the main work of calculating the requested percentile at this location
+            wptl[idx] = weighted_percentile(pcval, y_s, weights)
         # post smoothing on percentile plots
         wptls = smooth_with_nans(ages, wptl, postsigma)
         # put curve into a list of curves
@@ -302,7 +303,9 @@ def do_work(args):
 
     # ======================================================================== #
 
-    agevals = np.round(yall[:, 0])
+    agevals = yall[:, 0]
+    if args.roundages:
+        agevals = np.round(agevals)
     _, _, _, _, x = nm.hist_age_data(agevals, agebinwidth=args.binwidth)
     minage = np.min(agevals)
     maxage = np.max(agevals)
@@ -354,29 +357,26 @@ if __name__ == "__main__":
     # User parameters
 
     parser = argparse.ArgumentParser(
-        description="Implementation of various normative modelling approaches "
-                    + "(for estimating distributions that vary wrt a parameter such as age)")
+        description="Tool used to estimate a normative model (percentile curves) from a set of "
+                    + "data values, or many datasets, using sliding window approaches.")
 
     parser.add_argument("-i", "--inputfile", type=str, default="",
                         help="name of input data file (csv format, the output "
                              + "of a normative model run on simulated data)", required=True)
     parser.add_argument("-o", "--out", type=str, default="",
                         help="name of output data file (csv format)", required=True)
-    parser.add_argument("-p", "--percentile", type=float, default=5.0,
-                        help="percentile value (0 to 100) to calculate and report on")
     parser.add_argument("-w", "--binwidth", type=float, default=1.0,
-                        help="bin width to use for plotting and percentile estimation")
+                        help="bin width to use for quantisation of all age values (typically 1 year)")
     parser.add_argument("--percbinsize", type=float, default=5.0,
-                        help="bin size for percentile estimator")
+                        help="bin width used in the percentile estimator (e.g. for sliding window)")
     parser.add_argument("--postsmooth", type=float, default=1.0,
                         help="post percentile smoothing in percentile estimator")
     parser.add_argument("--bintype", type=str, default="rect",
                         help="type of bin estimator to use in percentile estimator (rect or gaussian)")
     parser.add_argument("--estpercs", type=float, nargs='+',
                         help="list of percentile values (0 to 100) to calculate and report on")
-    parser.add_argument("--nosave", action="store_true",
-                        help="do not save simulated values")
-    parser.add_argument("--noplots", action="store_true")
+    parser.add_argument("--roundages", action="store_true",
+                        help="round all values of age before fitting to them")
 
     main_args = parser.parse_args()
 

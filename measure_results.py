@@ -218,9 +218,8 @@ def calc_error_e1(
         np.array: error values (using E1 formula in paper) with one value (float) per datapoint - Nsubj x Nperc.
     """
     percvals = default_percvals if percvals is None else percvals
-    x_sorted = np.sort(x, axis=0)
-    # evaluate model at points x_sorted - returns a set of mean and stddev values
-    dist_params_true = nm.model(truetheta, x_sorted, modeltype=simmodeltype)
+    # evaluate model at points x - returns a set of mean and stddev values
+    dist_params_true = nm.model(truetheta, x, modeltype=simmodeltype)
     err = np.zeros((len(x), len(percvals)))
     for idx, ptl in enumerate(percvals):
         d_sig = norm.ppf(ptl)
