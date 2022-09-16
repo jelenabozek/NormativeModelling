@@ -37,7 +37,7 @@ Detailed help and usage for each command can be found by running it with the arg
   
   - This creates a set of 5000 simulations, where each simulation contains 1000 datapoints (i.e. simulated subjects)
   - The ages are read from the file simages.txt (the first number on each line is taken as a separate age)
-  - The output is written into a file called simdata_1000.csv (the format can be changed using the --save_format option)
+  - The output is written into a file called simdata_1000.csv (the format can be changed using the `--save_format` option)
     - The structure of the output file is that each row contains one age value followed by one value for each of the Nsim simulations (5000 here)
     - There are as many rows as simulated subjects (1000 here)
     - The first column is the set of ages of all subjects (common to all simulations) and every other column is one simulated dataset
@@ -65,7 +65,7 @@ For sliding window models:
   - The output is written to the file *fit_MovingAvW5_1000.csv* in this case and the format contains one row per datapoint with a header row like this:
     - *age, simdata_1, centile1_sim1, centile2_sim1, centile5_sim1, centile10_sim1, centile50_sim1, centile90_sim1, centile95_sim1, centile98_sim1, centile99_sim1, simdata_2, centile1_sim2, centile2_sim2, centile5_sim2, centile10_sim2, centile50_sim2, centile90_sim2, centile95_sim2, centile98_sim2, centile99_sim2, simdata_3, ...*
     - where *centileP_simN* represents the estimated value of percentile curve "P" at the Nth simulated dataset, while "simdata_N" represents the value (e.g. volume) of the this datapoint for the Nth simulated dataset
-    - for example, in this case there will be one header row followed by 1000 rows (one per datapoint) where in each row will start with *age, simdata_1* and go to *simdata_5000, centile1_sim5000, ... centile99"sim5000*
+    - for example, in this case there will be one header row followed by 1000 rows (one per datapoint) where in each row will start with *age, simdata_1* and go to *simdata_5000, centile1_sim5000, ... centile99_sim5000*
     - this is a redundant representation, which is helpful for matching files if the filenames do not contain enough information
   - the set of estimated percentiles can be specified using the `--estpercs` option
   - settings for the sliding window algorithm are specified via the options:
