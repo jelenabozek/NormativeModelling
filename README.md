@@ -62,10 +62,10 @@ For sliding window models:
   `est_percentiles.py --inputfile simdata_1000.csv --out fit_MovingAvW5_1000.csv --postsmooth 2.12 --percbinsize 5.0 --binwidth 1 --bintype rect`
   
   - This takes a set of simulated datasets (as output by sim_data.py) and estimates percentile curves using normative model based on sliding windows
-  - The output is written to the file fit_MovingAvW5_1000.csv in this case and the format contains one row per datapoint with a header row like this:
+  - The output is written to the file *fit_MovingAvW5_1000.csv* in this case and the format contains one row per datapoint with a header row like this:
     - *age, simdata_1, centile1_sim1, centile2_sim1, centile5_sim1, centile10_sim1, centile50_sim1, centile90_sim1, centile95_sim1, centile98_sim1, centile99_sim1, simdata_2, centile1_sim2, centile2_sim2, centile5_sim2, centile10_sim2, centile50_sim2, centile90_sim2, centile95_sim2, centile98_sim2, centile99_sim2, simdata_3, ...*
-    - where centileP_simN represents the estimated value of percentile curve "P" at the Nth simulated dataset, while "simdata_N" represents the value (e.g. volume) of the this datapoint for the Nth simulated dataset
-    - for example, in this case there will be one header row followed by 1000 rows (one per datapoint) where in each row will start with "age", "simdata_1" and go to "simdata_5000", "centile1_sim5000", ... "centile99"sim5000"
+    - where *centileP_simN* represents the estimated value of percentile curve "P" at the Nth simulated dataset, while "simdata_N" represents the value (e.g. volume) of the this datapoint for the Nth simulated dataset
+    - for example, in this case there will be one header row followed by 1000 rows (one per datapoint) where in each row will start with *age, simdata_1* and go to *simdata_5000, centile1_sim5000, ... centile99"sim5000*
     - this is a redundant representation, which is helpful for matching files if the filenames do not contain enough information
   - the set of estimated percentiles can be specified using the `--estpercs` option
   - settings for the sliding window algorithm are specified via the options:
@@ -79,7 +79,7 @@ For sliding window models:
   
   `measure_results.py --inputfile fit_MovingAvW5_1000.csv --outname normodres_MovingAvW5 --estname MovingAvW5 --simmodeltype nonlin --simparams 65.0 0.1 20.0 -70.0 6000.0 65.0 0.1 1.0 5.0 200.0`
   
-  - This takes as input the output of est_percentiles.py and measures different types of errors, saving these in an output file (normodres_MovingAvW5.csv) and creating plots of the results (saved as files)
+  - This takes as input the output of est_percentiles.py and measures different types of errors, saving these in an output file (*normodres_MovingAvW5.csv*) and creating plots of the results (saved as files)
   - The output of any normative modelling method can be used as long as its output is written using the format specified above, although both csv and rds file formats can be read
   - The plots are saved with fixed filenames, into the present working directory
   - The type of ground truth and the associated simulation parameters are specified with the `--simmodeltype` and `--simparams` options, as described above for sim_data.py (it should match the ground truth used to generate the initial simulated data)
