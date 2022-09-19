@@ -1,17 +1,20 @@
 #!/usr/bin/env Rscript
 
 
-# Script for running normative modelling using GAMLSS
-# The script can be run from the command line or in RStudio.
-# The script uses parallel processing to speed things up (SHASH takes longer time, especially with larger datasets).
+#  This code is released to the public domain.
 
 # Author: Jelena Bozek, University of Zagreb, Faculty of Electrical Engineering and Computing
 
 # August 2022
 
-####################################
 
-# load libraries
+# Script for estimating a normative model (percentile curves) from a set of data values, or many datasets, using GAMLSS.
+# The script can be run from the command line or in RStudio.
+# The script uses parallel processing to speed things up (SHASH takes longer time, especially with larger datasets).
+
+
+######## Loading libraries ############
+
 library(gamlss)
 library(lme4)
 
@@ -67,14 +70,16 @@ get_percentiles <- function(obj, xvar, cent=c(1,2,5,10,50,90,95,98,99)) {
 option_list <- list(
   make_option(c("-f", "--file"), type="character", default=NULL, 
               help="dataset file name in .rds format; firts column is age, followed by columns with a measure to model (e.g. hippocampal volume)", metavar="character"),
-  make_option(c("-n", "--numsubjects"), type="character", default="50", 
+  make_option(c("-n", "--numsubjects"), type="character", default="1000", 
               help="number of subjects in the dataset [default= %default]", metavar="character"),
   make_option(c("--func"), type="character", default="splineMuSigma", 
-              help="formula function to be used for fitting, can be one of the following: 'linear', 'polynomial', 'spline', 'splineMuSigma', 'splineMuSigmaNuTau'. [default= %default]", metavar="character"),
+              help="formula function to be used for fitting, can be one of the following: 'linear', 'polynomial', 'spline', 'splineMuSigma', 'splineMuSigmaNuTau' [default= %default]", metavar="character"),
   make_option(c("-d", "--distribution"), type="character", default="SHASH", 
-              help="family distribution to use for modelling, can be 'BCT' or 'SHASH'. [default= %default]", metavar="character"),
+              help="family distribution to use for modelling, can be 'BCT' or 'SHASH' [default= %default]", metavar="character"),
   make_option(c("-o", "--out"), type="character", default="fitdata_gamlss.rds", 
-              help="output file name with extension .rds [default= %default]", metavar="character")
+              help="output file name with extension .rds [default= %default]", metavar="character"),
+  make_option(c("--roundages"), type="character", action="store_true", 
+              help="round all values of age before fitting to them", metavar="character")
 ); 
 
 opt_parser <- OptionParser(option_list=option_list);
@@ -114,8 +119,8 @@ my_data[] <- lapply(my_data, function(x) {
 sapply(my_data, class)
 
 age <- my_data[,1] # ages
-## round ages to closest integer value - only for N=50000; 
-if (num_of_subj==50000) { age <- round(age) }
+## optionally round ages to closest integer value; 
+if (opt$roundages) { age <- round(age) }
 
 # get number of columns in simulated sets
 ncolumns <- ncol(my_data)
