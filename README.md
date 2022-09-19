@@ -55,7 +55,7 @@ For GAMLSS models:
 
   `normative_modelling_gamlss.R --file=simdata_1000.rds --numsubjects=1000 --func=splineMuSigma --distribution=SHASH --out=fitdata_gamlss.rds`
   
-  - This takes a set of simulated datasets (as output by sim_data.py) and estimates percentile curves using normative model based on GAMLSS
+  - This takes a set of simulated datasets (as output by sim_data.py in .rds format) and estimates percentile curves using normative model based on GAMLSS
   - The output is written to the file *fitdata_gamlss.rds* in this case and the format contains one row per datapoint with a header row like this:
     - *age, simdata_1, centile1_sim1, centile2_sim1, centile5_sim1, centile10_sim1, centile50_sim1, centile90_sim1, centile95_sim1, centile98_sim1, centile99_sim1, simdata_2, centile1_sim2, centile2_sim2, centile5_sim2, centile10_sim2, centile50_sim2, centile90_sim2, centile95_sim2, centile98_sim2, centile99_sim2, simdata_3, ...*
     - where *centileP_simN* represents the estimated value of percentile curve "P" at the Nth simulated dataset, while "simdata_N" represents the value (e.g. volume) of the this datapoint for the Nth simulated dataset
