@@ -100,7 +100,6 @@ formula <- opt$func
 fam <- opt$distribution
 output_file <- opt$out
 
-  
 
 ############ MAIN PART ############ 
 
@@ -119,8 +118,9 @@ my_data[] <- lapply(my_data, function(x) {
 sapply(my_data, class)
 
 age <- my_data[,1] # ages
-## optionally round ages to closest integer value; 
-if (opt$roundages) { age <- round(age) }
+## optionally round ages to the closest integer value if the option --roundages is written when calling the script
+if (!is.null(opt$roundages)) { age <- round(age) }
+
 
 # get number of columns in simulated sets
 ncolumns <- ncol(my_data)
