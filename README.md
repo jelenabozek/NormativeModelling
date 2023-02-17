@@ -10,7 +10,11 @@ Code:
   - Mark Jenkinson and Jelena Bozek
 
 Main citation:
-  - Scripts included in this repository are described in detail in the paper "Normative models for neuroimaging markers: impact of model selection, sample size and evaluation criteria" by Jelena Bozek, Ludovica Griffanti, Stephan Lau and Mark Jenkinson.
+  - Scripts included in this repository are described in detail in the paper:
+Jelena Bozek, Ludovica Griffanti, Stephan Lau, Mark Jenkinson
+Normative models for neuroimaging markers: Impact of model selection, sample size and evaluation criteria
+NeuroImage, Volume 268, 2023, 119864
+https://doi.org/10.1016/j.neuroimage.2023.119864
 
 
 
@@ -53,7 +57,7 @@ Detailed help and usage for each command can be found by running it with the arg
 
 For GAMLSS models:
 
-  `normative_modelling_gamlss.R --file=simdata_1000.rds --numsubjects=1000 --func=splineMuSigma --distribution=SHASH --out=fitdata_gamlss.rds`
+  `normative_modelling_gamlss.R --file=simdata_1000.rds --numsubjects=1000 --func=splineMuSigma --distribution=SHASH --out=fitdata_gamlss.rds --roundages`
   
   - This takes a set of simulated datasets (as output by sim_data.py in .rds format) and estimates percentile curves using normative model based on GAMLSS
   - The output is written to the file *fitdata_gamlss.rds* in this case and the format contains one row per datapoint with a header row like this:
@@ -64,6 +68,7 @@ For GAMLSS models:
   - settings for the GAMLSS are specified via the options:
     - `--func` specifies the formula function to be used for fitting - it can be one of the following: 'linear', 'polynomial', 'spline', 'splineMuSigma', 'splineMuSigmaNuTau'. [default= splineMuSigma]
     - `--distribution` specifies the family distribution to use for modelling - it can be 'BCT' or 'SHASH'. [default= SHASH]
+    - `--roundages` if this flag is written then all values of age are rounded before fitting to them
   
 
 For sliding window models:
@@ -111,6 +116,9 @@ The code requires R version 3.6.1 with the following packages:
  - MASS
  - nlme
  - parallel
+ 
+Note: when running the script normative_modelling_gamlss.R there might be some initial warnings about some packages being masked in gamlss etc. This happens while loading libraries and does not affect the execution of the code.
+
 
 The code requires Python version 3 with the following packages:
  - pyreadr
